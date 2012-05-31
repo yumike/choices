@@ -1,0 +1,3 @@
+-e git+https://github.com/mitsuhiko/flask.git@master#egg=Flask
+-e git+https://github.com/trilan/flask-gears.git@develop#egg=Flask-Gears
+-e git+https://github.com/trilan/gears.git@develop#egg=Gears
