@@ -6,7 +6,7 @@ class Clients extends Backbone.Collection
 
 clientsFactory = (start, callback) ->
   clients = new Clients
-  clients.fetch data: {_from: start, _to: start + 50}, success: callback
+  clients.fetch data: {_start: start, _stop: start + 50}, success: callback
 
 jQuery ->
   view = new Choices.ListView collectionFactory: clientsFactory
