@@ -42,12 +42,16 @@ class Choices.ListView extends Backbone.View
   className: "choices-list"
 
   initialize: ->
-    @length = 0
     @spinner = $("<li>").addClass("item item-spinner")
     @collectionFactory = @options.collectionFactory
     @defaultData = @options.defaultData ? {start: 0}
 
+  empty: ->
+    @length = 0
+    @$el.empty()
+
   render: =>
+    @empty()
     @renderCollection()
     @enableScrollHandler()
     this
@@ -89,3 +93,7 @@ class Choices.ListView extends Backbone.View
 
   hideSpinner: =>
     @spinner.detach()
+
+  updateDefaultData: (data) ->
+    @defaultData = _.extend @defaultData, data
+    @render()
