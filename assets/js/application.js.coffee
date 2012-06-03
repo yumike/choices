@@ -9,5 +9,5 @@ clientsFactory = (data, callback) ->
   clients.fetch data: data, success: callback
 
 jQuery ->
-  view = new Choices.ListView collectionFactory: clientsFactory
+  view = new Choices.DropdownView collectionFactory: clientsFactory
   $("#application").append view.render().el

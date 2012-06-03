@@ -98,3 +98,48 @@ class Choices.ListView extends Backbone.View
   updateDefaultData: (data) ->
     @defaultData = _.extend @defaultData, data
     @render()
+
+
+class Choices.SearchView extends Choices.TemplateView
+  className: "choices-search"
+  template:  "js/choices/templates/search"
+
+  events:
+    "keyup input":   "keyup"
+    "keydown input": "keydown"
+
+  initialize: ->
+    @value = ""
+
+  keyup: (event) =>
+    clearTimeout @timeoutId if @timeoutId?
+    @timeoutId = setTimeout @triggerChange, 300
+
+  keydown: (event) =>
+    if event.which == 13
+      clearTimeout @timeoutId if @timeoutId?
+      @triggerChange()
+
+  triggerChange: =>
+    newValue = $("input").val()
+    if newValue != @value
+      @value = newValue
+      @trigger "change", @value
+
+
+class Choices.DropdownView extends Backbone.View
+  className: "choices-dropdown"
+
+  initialize: ->
+    @searchView = new Choices.SearchView
+    @searchView.on "change", @changeValue
+
+    @listView = new Choices.ListView collectionFactory: @options.collectionFactory
+
+  render: =>
+    @$el.append @searchView.render().el
+    @$el.append @listView.render().el
+    this
+
+  changeValue: (value) =>
+    @listView.updateDefaultData {search: value}
