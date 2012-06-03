@@ -21,8 +21,8 @@ def index():
 @app.route('/clients')
 def clients():
     time.sleep(1)  # imitate server delay
-    start = int(request.args.get('_start', 0))
-    stop = min(int(request.args.get('_stop', start + 50)), 200)
+    start = int(request.args.get('start', 0))
+    stop = min(int(request.args.get('stop', start + 50)), 200)
     objects = [{'id': x + 1, 'name': generate_name()} for x in range(start, stop)]
     return jsonify(objects=objects)
 

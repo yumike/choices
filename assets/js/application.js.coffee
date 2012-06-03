@@ -4,9 +4,9 @@ class Clients extends Backbone.Collection
   parse: (response) ->
     response.objects
 
-clientsFactory = (start, callback) ->
+clientsFactory = (data, callback) ->
   clients = new Clients
-  clients.fetch data: {_start: start, _stop: start + 50}, success: callback
+  clients.fetch data: data, success: callback
 
 jQuery ->
   view = new Choices.ListView collectionFactory: clientsFactory
