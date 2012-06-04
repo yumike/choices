@@ -58,9 +58,10 @@ class Choices.ListView extends Backbone.View
     this
 
   # Renders a slice of collection
-  renderCollection: (data={}) ->
+  renderCollection: ->
+    data = _.defaults {start: @length, stop: @length + @limit}, @defaultData
     @showSpinner()
-    @collectionFactory _.defaults(data, @defaultData), (collection) =>
+    @collectionFactory data, (collection) =>
       @hideSpinner()
       @addAll collection
 
@@ -84,7 +85,7 @@ class Choices.ListView extends Backbone.View
     @$el.unbind "scroll", @scrollHandler
 
   scrollHandler: =>
-    @renderCollection {start: @length, stop: @length + @limit} if @isScrolledToBottom()
+    @renderCollection() if @isScrolledToBottom()
 
   isScrolledToBottom: ->
     @el.scrollHeight - @el.scrollTop == @el.clientHeight
