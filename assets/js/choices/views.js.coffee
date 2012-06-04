@@ -67,10 +67,8 @@ class Choices.ListView extends Backbone.View
 
   # Appends all models from collection to the end of list
   addAll: (collection) =>
-    if collection.length == 0
-      @disableScrollHandler()
-    else
-      collection.each @addOne
+    @disableScrollHandler() if collection.length < @limit
+    collection.each @addOne
 
   # Appends model to the end of list
   addOne: (model) =>
