@@ -22,13 +22,19 @@ def index():
 def clients():
     time.sleep(1)  # imitate server delay
     start = int(request.args.get('start', 0))
-    stop = min(int(request.args.get('stop', start + 50)), 200)
-    objects = [{'id': x + 1, 'name': generate_name()} for x in range(start, stop)]
-    return jsonify(objects=objects)
+    stop = int(request.args.get('stop', start + 25))
+    return jsonify(objects=get_objects(request.args.get('search'))[start:stop])
 
 
 def generate_name():
     return ''.join(random.choice('abcdefghijklmnopqrstuvwxyz') for x in range(10))
+
+
+objects = [{'id': x + 1, 'name': generate_name()} for x in range(200)]
+
+
+def get_objects(search):
+    return [x for x in objects if search in x['name']] if search else objects
 
 
 if __name__ == '__main__':
