@@ -139,11 +139,38 @@ class Choices.DropdownView extends Backbone.View
   className: "choices-dropdown"
 
   initialize: ->
-    @list = new Choices.List
+    @list = @options.list
     @searchView = new Choices.SearchView list: @list
     @listView = new Choices.ListView list: @list, collectionFactory: @options.collectionFactory
 
   render: =>
     @$el.append @searchView.render().el
     @$el.append @listView.render().el
+    this
+
+
+class Choices.SelectedItemView extends Choices.TemplateView
+  className: "choices-selected"
+  template:  "js/choices/templates/selected_item"
+
+  initialize: ->
+    @list = @options.list
+    @list.on "change:selected", @render
+
+  getTemplateContext: ->
+    selected = @list.get("selected")
+    if selected? then selected.toJSON() else {}
+
+
+class Choices.SelectView extends Backbone.View
+  className: "choices-select"
+
+  initialize: ->
+    @list = new Choices.List
+    @selectedItemView = new Choices.SelectedItemView list: @list
+    @dropdownView = new Choices.DropdownView list: @list, collectionFactory: @options.collectionFactory
+
+  render: =>
+    @$el.append @selectedItemView.render().el
+    @$el.append @dropdownView.render().el
     this

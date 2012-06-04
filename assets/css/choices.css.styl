@@ -1,11 +1,36 @@
-.choices-list
+.choices-select
+  position: relative
+  width: 200px
+  border: 1px solid #ccc
+
+.choices-search
+  border-bottom: 1px solid #ccc
+  padding 8px 8px
+
+  input
+    width: 100%
+
+.choices-selected
+  height: 36px
+  line-height: 36px
+  padding: 0 16px
+  font-family: Menlo, monospace
+  font-size: 14px
+
+.choices-dropdown
+  position: absolute
   border: 1px solid #ccc
   width: 200px
+  top: 36px
+  left: -1px
+
+.choices-list
   height: 150px
   position: relative
   overflow: auto
   font-family: Menlo, monospace
   font-size: 14px
+  margin: 0
   padding: 0
   list-style-type: none
 
