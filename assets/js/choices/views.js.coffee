@@ -45,7 +45,9 @@ class Choices.ListView extends Backbone.View
     @spinner = $("<li>").addClass("item item-spinner")
     @collectionFactory = @options.collectionFactory
     @limit = @options.limit ? 25
-    @data = @options.data ? {}
+
+    @data = @options.data
+    @data.on "change", @render
 
   empty: ->
     @length = 0
@@ -59,7 +61,7 @@ class Choices.ListView extends Backbone.View
 
   # Renders a slice of collection
   renderCollection: ->
-    data = _.defaults {start: @length, stop: @length + @limit}, @data
+    data = _.defaults {start: @length, stop: @length + @limit}, @data.toJSON()
     @showSpinner()
     @collectionFactory data, (collection) =>
       @hideSpinner()
@@ -94,10 +96,6 @@ class Choices.ListView extends Backbone.View
   hideSpinner: =>
     @spinner.detach()
 
-  updateData: (data) ->
-    @data = _.extend @data, data
-    @render()
-
 
 class Choices.SearchView extends Choices.TemplateView
   className: "choices-search"
@@ -108,7 +106,7 @@ class Choices.SearchView extends Choices.TemplateView
     "keydown input": "keydown"
 
   initialize: ->
-    @value = ""
+    @data = @options.data
 
   keyup: (event) =>
     clearTimeout @timeoutId if @timeoutId?
@@ -120,25 +118,18 @@ class Choices.SearchView extends Choices.TemplateView
       @triggerChange()
 
   triggerChange: =>
-    newValue = $("input").val()
-    if newValue != @value
-      @value = newValue
-      @trigger "change", @value
+    @data.set query: $("input").val()
 
 
 class Choices.DropdownView extends Backbone.View
   className: "choices-dropdown"
 
   initialize: ->
-    @searchView = new Choices.SearchView
-    @searchView.on "change", @changeValue
-
-    @listView = new Choices.ListView collectionFactory: @options.collectionFactory
+    @data = new Backbone.Model
+    @searchView = new Choices.SearchView data: @data
+    @listView = new Choices.ListView data: @data, collectionFactory: @options.collectionFactory
 
   render: =>
     @$el.append @searchView.render().el
     @$el.append @listView.render().el
     this
-
-  changeValue: (value) =>
-    @listView.updateData {query: value}
