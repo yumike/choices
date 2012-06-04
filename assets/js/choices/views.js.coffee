@@ -118,7 +118,7 @@ class Choices.SearchView extends Choices.TemplateView
       @triggerChange()
 
   triggerChange: =>
-    @data.set query: $("input").val()
+    @data.set query: @$("input").val()
 
 
 class Choices.DropdownView extends Backbone.View
