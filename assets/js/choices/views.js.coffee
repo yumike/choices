@@ -45,7 +45,7 @@ class Choices.ListView extends Backbone.View
     @spinner = $("<li>").addClass("item item-spinner")
     @collectionFactory = @options.collectionFactory
     @limit = @options.limit ? 25
-    @defaultData = @options.defaultData ? {start: 0, stop: @limit}
+    @data = @options.data ? {}
 
   empty: ->
     @length = 0
@@ -59,7 +59,7 @@ class Choices.ListView extends Backbone.View
 
   # Renders a slice of collection
   renderCollection: ->
-    data = _.defaults {start: @length, stop: @length + @limit}, @defaultData
+    data = _.defaults {start: @length, stop: @length + @limit}, @data
     @showSpinner()
     @collectionFactory data, (collection) =>
       @hideSpinner()
@@ -96,8 +96,8 @@ class Choices.ListView extends Backbone.View
   hideSpinner: =>
     @spinner.detach()
 
-  updateDefaultData: (data) ->
-    @defaultData = _.extend @defaultData, data
+  updateData: (data) ->
+    @data = _.extend @data, data
     @render()
 
 
@@ -143,4 +143,4 @@ class Choices.DropdownView extends Backbone.View
     this
 
   changeValue: (value) =>
-    @listView.updateDefaultData {search: value}
+    @listView.updateData {search: value}
