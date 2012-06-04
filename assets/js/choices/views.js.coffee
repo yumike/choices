@@ -143,4 +143,4 @@ class Choices.DropdownView extends Backbone.View
     this
 
   changeValue: (value) =>
-    @listView.updateData {search: value}
+    @listView.updateData {query: value}

@@ -23,7 +23,7 @@ def clients():
     time.sleep(1)  # imitate server delay
     start = int(request.args.get('start', 0))
     stop = int(request.args.get('stop', start + 25))
-    return jsonify(objects=get_objects(request.args.get('search'))[start:stop])
+    return jsonify(objects=get_objects(request.args.get('query'))[start:stop])
 
 
 def generate_name():
@@ -33,8 +33,8 @@ def generate_name():
 objects = [{'id': x + 1, 'name': generate_name()} for x in range(200)]
 
 
-def get_objects(search):
-    return [x for x in objects if search in x['name']] if search else objects
+def get_objects(query):
+    return [x for x in objects if query in x['name']] if query else objects
 
 
 if __name__ == '__main__':
