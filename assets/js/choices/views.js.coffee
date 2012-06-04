@@ -32,8 +32,22 @@ class Choices.ItemView extends Choices.TemplateView
   className: "item"
   template:  "js/choices/templates/item"
 
+  initialize: ->
+    @list = @options.list
+    @$el.hover @enter, @leave
+    @$el.click @select
+
   getTemplateContext: ->
     @model.toJSON()
+
+  enter: =>
+    @$el.addClass "item-hover"
+
+  leave: =>
+    @$el.removeClass "item-hover"
+
+  select: =>
+    @list.set selected: @model
 
 
 # View with drop-down list of items to select.
@@ -46,8 +60,8 @@ class Choices.ListView extends Backbone.View
     @collectionFactory = @options.collectionFactory
     @limit = @options.limit ? 25
 
-    @data = @options.data
-    @data.on "change", @render
+    @list = @options.list
+    @list.data.on "change", @render
 
   empty: ->
     @length = 0
@@ -61,7 +75,7 @@ class Choices.ListView extends Backbone.View
 
   # Renders a slice of collection
   renderCollection: ->
-    data = _.defaults {start: @length, stop: @length + @limit}, @data.toJSON()
+    data = _.defaults {start: @length, stop: @length + @limit}, @list.data.toJSON()
     @showSpinner()
     @collectionFactory data, (collection) =>
       @hideSpinner()
@@ -75,7 +89,7 @@ class Choices.ListView extends Backbone.View
   # Appends model to the end of list
   addOne: (model) =>
     @length++
-    view = new Choices.ItemView model: model
+    view = new Choices.ItemView model: model, list: @list
     @$el.append view.render().el
 
   enableScrollHandler: ->
@@ -106,7 +120,7 @@ class Choices.SearchView extends Choices.TemplateView
     "keydown input": "keydown"
 
   initialize: ->
-    @data = @options.data
+    @list = @options.list
 
   keyup: (event) =>
     clearTimeout @timeoutId if @timeoutId?
@@ -118,16 +132,16 @@ class Choices.SearchView extends Choices.TemplateView
       @change()
 
   change: =>
-    @data.set query: @$("input").val()
+    @list.data.set query: @$("input").val()
 
 
 class Choices.DropdownView extends Backbone.View
   className: "choices-dropdown"
 
   initialize: ->
-    @data = new Backbone.Model
-    @searchView = new Choices.SearchView data: @data
-    @listView = new Choices.ListView data: @data, collectionFactory: @options.collectionFactory
+    @list = new Choices.List
+    @searchView = new Choices.SearchView list: @list
+    @listView = new Choices.ListView list: @list, collectionFactory: @options.collectionFactory
 
   render: =>
     @$el.append @searchView.render().el
