@@ -110,14 +110,14 @@ class Choices.SearchView extends Choices.TemplateView
 
   keyup: (event) =>
     clearTimeout @timeoutId if @timeoutId?
-    @timeoutId = setTimeout @triggerChange, 300
+    @timeoutId = setTimeout @change, 300
 
   keydown: (event) =>
     if event.which == 13
       clearTimeout @timeoutId if @timeoutId?
-      @triggerChange()
+      @change()
 
-  triggerChange: =>
+  change: =>
     @data.set query: @$("input").val()
 
 
