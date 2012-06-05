@@ -142,11 +142,29 @@ class Choices.DropdownView extends Backbone.View
     @list = @options.list
     @searchView = new Choices.SearchView list: @list
     @listView = new Choices.ListView list: @list, collectionFactory: @options.collectionFactory
+    @list.on "change:isActive", @toggle
 
   render: =>
     @$el.append @searchView.render().el
     @$el.append @listView.render().el
     this
+
+  show: ->
+    @$el.show()
+    $(document).on "mouseup", @hideIfOutside
+
+  hide: ->
+    @$el.hide()
+    $(document).off "mouseup", @hideIfOutside
+
+  hasNot: (el) ->
+    not @$el.is(el) and @$el.has(el).length == 0
+
+  hideIfOutside: (event) =>
+    @list.set(isActive: false) if @hasNot event.target
+
+  toggle: =>
+    if @list.get("isActive") then @show() else @hide()
 
 
 class Choices.SelectedItemView extends Choices.TemplateView
@@ -156,10 +174,22 @@ class Choices.SelectedItemView extends Choices.TemplateView
   initialize: ->
     @list = @options.list
     @list.on "change:selected", @render
+    @list.on "change:isActive", @toggleClickability
+    @$el.on "mouseup", @activate
 
   getTemplateContext: ->
     selected = @list.get("selected")
     if selected? then selected.toJSON() else {}
+
+  toggleClickability: =>
+    if @list.get "isActive"
+      @$el.off "mouseup", @activate
+    else
+      @$el.on "mouseup", @activate
+
+  activate: (event) =>
+    event.stopPropagation()
+    @list.set isActive: true
 
 
 class Choices.SelectView extends Backbone.View
