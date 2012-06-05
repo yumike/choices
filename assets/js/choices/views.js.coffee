@@ -29,7 +29,7 @@ class Choices.TemplateView extends Backbone.View
 # Simple view to render item in select list, used by Choices.ListView.
 class Choices.ItemView extends Choices.TemplateView
   tagName:   "li"
-  className: "item"
+  className: "choices__item"
   template:  "js/choices/templates/item"
 
   initialize: ->
@@ -41,10 +41,10 @@ class Choices.ItemView extends Choices.TemplateView
     @model.toJSON()
 
   enter: =>
-    @$el.addClass "item-hover"
+    @$el.addClass "choices__item_hover"
 
   leave: =>
-    @$el.removeClass "item-hover"
+    @$el.removeClass "choices__item_hover"
 
   select: =>
     @list.set selected: @model
@@ -53,10 +53,10 @@ class Choices.ItemView extends Choices.TemplateView
 # View with drop-down list of items to select.
 class Choices.ListView extends Backbone.View
   tagName:   "ul"
-  className: "choices-list"
+  className: "choices__list"
 
   initialize: ->
-    @spinner = $("<li>").addClass("item item-spinner")
+    @spinner = $("<li>").addClass("choices__spinner")
     @collectionFactory = @options.collectionFactory
     @limit = @options.limit ? 25
 
@@ -112,7 +112,7 @@ class Choices.ListView extends Backbone.View
 
 
 class Choices.SearchView extends Choices.TemplateView
-  className: "choices-search"
+  className: "choices__search"
   template:  "js/choices/templates/search"
 
   events:
@@ -136,7 +136,7 @@ class Choices.SearchView extends Choices.TemplateView
 
 
 class Choices.DropdownView extends Backbone.View
-  className: "choices-dropdown"
+  className: "choices__dropdown"
 
   initialize: ->
     @list = @options.list
@@ -168,7 +168,7 @@ class Choices.DropdownView extends Backbone.View
 
 
 class Choices.SelectedItemView extends Choices.TemplateView
-  className: "choices-selected"
+  className: "choices__selected-item"
   template:  "js/choices/templates/selected_item"
 
   initialize: ->
@@ -193,7 +193,7 @@ class Choices.SelectedItemView extends Choices.TemplateView
 
 
 class Choices.SelectView extends Backbone.View
-  className: "choices-select"
+  className: "choices"
 
   initialize: ->
     @list = new Choices.List
