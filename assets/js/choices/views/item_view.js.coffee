@@ -1,22 +1,26 @@
-# Simple view to render item in select list, used by Choices.ListView.
-class Choices.ItemView extends Choices.TemplateView
-  tagName:   "li"
-  className: "choices__item"
-  template:  "js/choices/templates/item"
+define 'choices/views/item_view', [
+  'choices/views/template_view'
+], (TemplateView) ->
 
-  initialize: ->
-    @list = @options.list
-    @$el.hover @enter, @leave
-    @$el.click @select
+  # Simple view to render item in select list.
+  class ItemView extends TemplateView
+    tagName:   "li"
+    className: "choices__item"
+    template:  "js/choices/templates/item"
 
-  getTemplateContext: ->
-    @model.toJSON()
+    initialize: ->
+      @list = @options.list
+      @$el.hover @enter, @leave
+      @$el.click @select
 
-  enter: =>
-    @$el.addClass "choices__item_hover"
+    getTemplateContext: ->
+      @model.toJSON()
 
-  leave: =>
-    @$el.removeClass "choices__item_hover"
+    enter: =>
+      @$el.addClass "choices__item_hover"
 
-  select: =>
-    @list.set selected: @model
+    leave: =>
+      @$el.removeClass "choices__item_hover"
+
+    select: =>
+      @list.set selected: @model

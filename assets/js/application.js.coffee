@@ -4,10 +4,13 @@ class Clients extends Backbone.Collection
   parse: (response) ->
     response.objects
 
-clientsFactory = (data, callback) ->
-  clients = new Clients
-  clients.fetch data: data, success: callback
+require [
+  'choices/views/select_view'
+], (SelectView) ->
+  clientsFactory = (data, callback) ->
+    clients = new Clients
+    clients.fetch data: data, success: callback
 
-jQuery ->
-  view = new Choices.SelectView collectionFactory: clientsFactory
-  $("#application").append view.render().el
+  jQuery ->
+    view = new SelectView collectionFactory: clientsFactory
+    $("#application").append view.render().el

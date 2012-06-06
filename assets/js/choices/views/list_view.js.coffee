@@ -1,59 +1,63 @@
-# View with drop-down list of items to select.
-class Choices.ListView extends Backbone.View
-  tagName:   "ul"
-  className: "choices__list"
+define 'choices/views/list_view', [
+  'choices/views/item_view'
+], (ItemView) ->
 
-  initialize: ->
-    @spinner = $("<li>").addClass("choices__spinner")
-    @collectionFactory = @options.collectionFactory
-    @limit = @options.limit ? 25
+  # View with drop-down list of items to select.
+  class ListView extends Backbone.View
+    tagName:   "ul"
+    className: "choices__list"
 
-    @list = @options.list
-    @list.data.on "change", @render
+    initialize: ->
+      @spinner = $("<li>").addClass("choices__spinner")
+      @collectionFactory = @options.collectionFactory
+      @limit = @options.limit ? 25
 
-  empty: ->
-    @length = 0
-    @$el.empty()
+      @list = @options.list
+      @list.data.on "change", @render
 
-  render: =>
-    @empty()
-    @renderCollection()
-    @enableScrollHandler()
-    this
+    empty: ->
+      @length = 0
+      @$el.empty()
 
-  # Renders a slice of collection
-  renderCollection: ->
-    data = _.defaults {start: @length, stop: @length + @limit}, @list.data.toJSON()
-    @showSpinner()
-    @collectionFactory data, (collection) =>
-      @hideSpinner()
-      @addAll collection
+    render: =>
+      @empty()
+      @renderCollection()
+      @enableScrollHandler()
+      this
 
-  # Appends all models from collection to the end of list
-  addAll: (collection) =>
-    @disableScrollHandler() if collection.length < @limit
-    collection.each @addOne
+    # Renders a slice of collection
+    renderCollection: ->
+      data = _.defaults {start: @length, stop: @length + @limit}, @list.data.toJSON()
+      @showSpinner()
+      @collectionFactory data, (collection) =>
+        @hideSpinner()
+        @addAll collection
 
-  # Appends model to the end of list
-  addOne: (model) =>
-    @length++
-    view = new Choices.ItemView model: model, list: @list
-    @$el.append view.render().el
+    # Appends all models from collection to the end of list
+    addAll: (collection) =>
+      @disableScrollHandler() if collection.length < @limit
+      collection.each @addOne
 
-  enableScrollHandler: ->
-    @$el.scroll @scrollHandler
+    # Appends model to the end of list
+    addOne: (model) =>
+      @length++
+      view = new ItemView model: model, list: @list
+      @$el.append view.render().el
 
-  disableScrollHandler: ->
-    @$el.unbind "scroll", @scrollHandler
+    enableScrollHandler: ->
+      @$el.scroll @scrollHandler
 
-  scrollHandler: =>
-    @renderCollection() if @isScrolledToBottom()
+    disableScrollHandler: ->
+      @$el.unbind "scroll", @scrollHandler
 
-  isScrolledToBottom: ->
-    @el.scrollHeight - @el.scrollTop == @el.clientHeight
+    scrollHandler: =>
+      @renderCollection() if @isScrolledToBottom()
 
-  showSpinner: =>
-    @$el.append @spinner
+    isScrolledToBottom: ->
+      @el.scrollHeight - @el.scrollTop == @el.clientHeight
 
-  hideSpinner: =>
-    @spinner.detach()
+    showSpinner: =>
+      @$el.append @spinner
+
+    hideSpinner: =>
+      @spinner.detach()

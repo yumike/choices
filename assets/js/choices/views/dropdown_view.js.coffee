@@ -1,30 +1,35 @@
-class Choices.DropdownView extends Backbone.View
-  className: "choices__dropdown"
+define 'choices/views/dropdown_view', [
+  'choices/views/list_view'
+  'choices/views/search_view'
+], (ListView, SearchView) ->
 
-  initialize: ->
-    @list = @options.list
-    @searchView = new Choices.SearchView list: @list
-    @listView = new Choices.ListView list: @list, collectionFactory: @options.collectionFactory
-    @list.on "change:isActive", @toggle
+  class DropdownView extends Backbone.View
+    className: "choices__dropdown"
 
-  render: =>
-    @$el.append @searchView.render().el
-    @$el.append @listView.render().el
-    this
+    initialize: ->
+      @list = @options.list
+      @searchView = new SearchView list: @list
+      @listView = new ListView list: @list, collectionFactory: @options.collectionFactory
+      @list.on "change:isActive", @toggle
 
-  show: ->
-    @$el.show()
-    $(document).on "mouseup", @hideIfOutside
+    render: =>
+      @$el.append @searchView.render().el
+      @$el.append @listView.render().el
+      this
 
-  hide: ->
-    @$el.hide()
-    $(document).off "mouseup", @hideIfOutside
+    show: ->
+      @$el.show()
+      $(document).on "mouseup", @hideIfOutside
 
-  hasNot: (el) ->
-    not @$el.is(el) and @$el.has(el).length == 0
+    hide: ->
+      @$el.hide()
+      $(document).off "mouseup", @hideIfOutside
 
-  hideIfOutside: (event) =>
-    @list.set(isActive: false) if @hasNot event.target
+    hasNot: (el) ->
+      not @$el.is(el) and @$el.has(el).length == 0
 
-  toggle: =>
-    if @list.get("isActive") then @show() else @hide()
+    hideIfOutside: (event) =>
+      @list.set(isActive: false) if @hasNot event.target
+
+    toggle: =>
+      if @list.get("isActive") then @show() else @hide()

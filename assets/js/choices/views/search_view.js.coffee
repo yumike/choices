@@ -1,22 +1,26 @@
-class Choices.SearchView extends Choices.TemplateView
-  className: "choices__search"
-  template:  "js/choices/templates/search"
+define 'choices/views/search_view', [
+  'choices/views/template_view'
+], (TemplateView) ->
 
-  events:
-    "keyup input":   "keyup"
-    "keydown input": "keydown"
+  class SearchView extends TemplateView
+    className: "choices__search"
+    template:  "js/choices/templates/search"
 
-  initialize: ->
-    @list = @options.list
+    events:
+      "keyup input":   "keyup"
+      "keydown input": "keydown"
 
-  keyup: (event) =>
-    clearTimeout @timeoutId if @timeoutId?
-    @timeoutId = setTimeout @change, 300
+    initialize: ->
+      @list = @options.list
 
-  keydown: (event) =>
-    if event.which == 13
+    keyup: (event) =>
       clearTimeout @timeoutId if @timeoutId?
-      @change()
+      @timeoutId = setTimeout @change, 300
 
-  change: =>
-    @list.data.set query: @$("input").val()
+    keydown: (event) =>
+      if event.which == 13
+        clearTimeout @timeoutId if @timeoutId?
+        @change()
+
+    change: =>
+      @list.data.set query: @$("input").val()
