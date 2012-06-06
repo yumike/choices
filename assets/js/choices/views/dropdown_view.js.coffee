@@ -1,7 +1,9 @@
 define 'choices/views/dropdown_view', [
+  'jquery'
+  'backbone'
   'choices/views/list_view'
   'choices/views/search_view'
-], (ListView, SearchView) ->
+], ($, Backbone, ListView, SearchView) ->
 
   class DropdownView extends Backbone.View
     className: "choices__dropdown"

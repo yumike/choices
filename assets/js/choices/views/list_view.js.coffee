@@ -1,6 +1,9 @@
 define 'choices/views/list_view', [
+  'jquery'
+  'underscore'
+  'backbone'
   'choices/views/item_view'
-], (ItemView) ->
+], ($, _, Backbone, ItemView) ->
 
   # View with drop-down list of items to select.
   class ListView extends Backbone.View

@@ -1,4 +1,6 @@
-define 'choices/views/template_view', ->
+define 'choices/views/template_view', [
+  'backbone'
+], (Backbone) ->
 
   # Template view is rendered using Handlebars template. Template name can be
   # specified in two ways:

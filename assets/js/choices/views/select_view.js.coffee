@@ -1,8 +1,10 @@
 define 'choices/views/select_view', [
+  'backbone'
   'choices/models/list'
   'choices/views/dropdown_view'
   'choices/views/selected_item_view'
-], (List, DropdownView, SelectedItemView) ->
+], (Backbone, List, DropdownView, SelectedItemView) ->
+
   class SelectView extends Backbone.View
     className: "choices"
 
