@@ -1,12 +1,14 @@
-class Clients extends Backbone.Collection
-  url: "/clients"
-
-  parse: (response) ->
-    response.objects
-
 require [
+  'backbone'
   'choices/views/select_view'
-], (SelectView) ->
+], (Backbone, SelectView) ->
+
+  class Clients extends Backbone.Collection
+    url: "/clients"
+
+    parse: (response) ->
+      response.objects
+
   clientsFactory = (data, callback) ->
     clients = new Clients
     clients.fetch data: data, success: callback
