@@ -1,9 +1,9 @@
 require [
-  'backbone'
+  'chaplin/models/collection'
   'choices/views/select_view'
-], (Backbone, SelectView) ->
+], (Collection, SelectView) ->
 
-  class Clients extends Backbone.Collection
+  class Clients extends Collection
     url: "/clients"
 
     parse: (response) ->

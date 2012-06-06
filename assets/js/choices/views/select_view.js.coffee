@@ -1,11 +1,11 @@
 define 'choices/views/select_view', [
-  'backbone'
   'choices/models/list'
+  'choices/views/view'
   'choices/views/dropdown_view'
   'choices/views/selected_item_view'
-], (Backbone, List, DropdownView, SelectedItemView) ->
+], (List, View, DropdownView, SelectedItemView) ->
 
-  class SelectView extends Backbone.View
+  class SelectView extends View
     className: "choices"
 
     initialize: ->
@@ -13,7 +13,7 @@ define 'choices/views/select_view', [
       @selectedItemView = new SelectedItemView list: @list
       @dropdownView = new DropdownView list: @list, collectionFactory: @options.collectionFactory
 
-    render: =>
+    render: ->
       @$el.append @selectedItemView.render().el
       @$el.append @dropdownView.render().el
       this

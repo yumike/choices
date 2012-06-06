@@ -1,8 +1,8 @@
 define 'choices/views/search_view', [
-  'choices/views/template_view'
-], (TemplateView) ->
+  'choices/views/view'
+], (View) ->
 
-  class SearchView extends TemplateView
+  class SearchView extends View
     className: "choices__search"
     template:  "js/choices/templates/search"
 

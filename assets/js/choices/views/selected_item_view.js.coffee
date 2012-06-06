@@ -1,8 +1,8 @@
 define 'choices/views/selected_item_view', [
-  'choices/views/template_view'
-], (TemplateView) ->
+  'choices/views/view'
+], (View) ->
 
-  class SelectedItemView extends TemplateView
+  class SelectedItemView extends View
     className: "choices__selected-item"
     template:  "js/choices/templates/selected_item"
 
@@ -12,7 +12,7 @@ define 'choices/views/selected_item_view', [
       @list.on "change:isActive", @toggleClickability
       @$el.on "mouseup", @activate
 
-    getTemplateContext: ->
+    getTemplateData: ->
       selected = @list.get("selected")
       if selected? then selected.toJSON() else {}
 

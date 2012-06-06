@@ -1,9 +1,9 @@
 define 'choices/views/item_view', [
-  'choices/views/template_view'
-], (TemplateView) ->
+  'choices/views/view'
+], (View) ->
 
   # Simple view to render item in select list.
-  class ItemView extends TemplateView
+  class ItemView extends View
     tagName:   "li"
     className: "choices__item"
     template:  "js/choices/templates/item"
@@ -12,9 +12,6 @@ define 'choices/views/item_view', [
       @list = @options.list
       @$el.hover @enter, @leave
       @$el.click @select
-
-    getTemplateContext: ->
-      @model.toJSON()
 
     enter: =>
       @$el.addClass "choices__item_hover"

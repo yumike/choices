@@ -1,6 +1,7 @@
 define 'choices/models/list', [
-  'backbone'
-], (Backbone) ->
-  class List extends Backbone.Model
+  'chaplin/models/model'
+], (Model) ->
+
+  class List extends Model
     initialize: ->
-      @data = new Backbone.Model
+      @data = new Model

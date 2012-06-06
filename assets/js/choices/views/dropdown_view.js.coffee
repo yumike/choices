@@ -1,11 +1,11 @@
 define 'choices/views/dropdown_view', [
   'jquery'
-  'backbone'
+  'choices/views/view'
   'choices/views/list_view'
   'choices/views/search_view'
-], ($, Backbone, ListView, SearchView) ->
+], ($, View, ListView, SearchView) ->
 
-  class DropdownView extends Backbone.View
+  class DropdownView extends View
     className: "choices__dropdown"
 
     initialize: ->
@@ -14,7 +14,7 @@ define 'choices/views/dropdown_view', [
       @listView = new ListView list: @list, collectionFactory: @options.collectionFactory
       @list.on "change:isActive", @toggle
 
-    render: =>
+    render: ->
       @$el.append @searchView.render().el
       @$el.append @listView.render().el
       this
