@@ -9,6 +9,7 @@ define 'choices/views/item_view', [
     template:  "js/choices/templates/item"
 
     initialize: ->
+      super
       @list = @options.list
       @$el.hover @enter, @leave
       @$el.click @select

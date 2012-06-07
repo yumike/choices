@@ -7,6 +7,7 @@ define 'choices/views/selected_item_view', [
     template:  "js/choices/templates/selected_item"
 
     initialize: ->
+      super
       @list = @options.list
       @list.on "change:selected", @render
       @list.on "change:isActive", @toggleClickability

@@ -9,12 +9,14 @@ define 'choices/views/dropdown_view', [
     className: "choices__dropdown"
 
     initialize: ->
+      super
       @list = @options.list
       @searchView = new SearchView list: @list
       @listView = new ListView list: @list, collectionFactory: @options.collectionFactory
       @list.on "change:isActive", @toggle
 
     render: ->
+      super
       @$el.append @searchView.render().el
       @$el.append @listView.render().el
       this

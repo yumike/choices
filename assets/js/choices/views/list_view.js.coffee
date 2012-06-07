@@ -11,6 +11,7 @@ define 'choices/views/list_view', [
     className: "choices__list"
 
     initialize: ->
+      super
       @spinner = $("<li>").addClass("choices__spinner")
       @collectionFactory = @options.collectionFactory
       @limit = @options.limit ? 25
@@ -23,6 +24,7 @@ define 'choices/views/list_view', [
       @$el.empty()
 
     render: =>
+      super
       @empty()
       @renderCollection()
       @enableScrollHandler()

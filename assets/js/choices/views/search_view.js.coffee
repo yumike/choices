@@ -11,6 +11,7 @@ define 'choices/views/search_view', [
       "keydown input": "keydown"
 
     initialize: ->
+      super
       @list = @options.list
 
     keyup: (event) =>
