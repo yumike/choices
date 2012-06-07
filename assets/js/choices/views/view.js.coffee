@@ -4,8 +4,11 @@ define 'choices/views/view', [
 
   class View extends ChaplinView
 
+    templateExists: ->
+      Handlebars.templates? and @template of Handlebars.templates
+
     getTemplateFunction: ->
       return unless @template?
-      if not Handlebars.templates? or @template not of Handlebars.templates
+      unless @templateExists
         throw new Error "Template '#{@template}' does not exist."
       Handlebars.templates[@template]
