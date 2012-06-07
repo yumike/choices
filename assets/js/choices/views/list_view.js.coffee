@@ -23,7 +23,7 @@ define 'choices/views/list_view', [
       @length = 0
       @$el.empty()
 
-    render: =>
+    render: ->
       super
       @empty()
       @renderCollection()
