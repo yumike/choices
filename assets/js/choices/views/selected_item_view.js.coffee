@@ -3,8 +3,9 @@ define 'choices/views/selected_item_view', [
 ], (View) ->
 
   class SelectedItemView extends View
-    className: "choices__selected-item"
-    template:  "js/choices/templates/selected_item"
+    className:  "choices__selected-item"
+    template:   "js/choices/templates/selected_item"
+    autoRender: true
 
     initialize: ->
       super

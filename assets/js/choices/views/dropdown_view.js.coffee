@@ -6,20 +6,18 @@ define 'choices/views/dropdown_view', [
 ], ($, View, ListView, SearchView) ->
 
   class DropdownView extends View
-    className: "choices__dropdown"
+    className:  "choices__dropdown"
+    autoRender: true
 
     initialize: ->
       super
       @list = @options.list
-      @searchView = new SearchView list: @list
-      @listView = new ListView list: @list, collectionFactory: @options.collectionFactory
       @list.on "change:isActive", @toggle
+      @collectionFactory = @options.collectionFactory
 
-    render: ->
-      super
-      @$el.append @searchView.render().el
-      @$el.append @listView.render().el
-      this
+    renderSubviews: ->
+      @subview new SearchView list: @list, container: @el
+      @subview new ListView list: @list, collectionFactory: @collectionFactory, container: @el
 
     show: ->
       @$el.show()

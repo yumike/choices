@@ -7,8 +7,9 @@ define 'choices/views/list_view', [
 
   # View with drop-down list of items to select.
   class ListView extends View
-    tagName:   "ul"
-    className: "choices__list"
+    tagName:    "ul"
+    className:  "choices__list"
+    autoRender: true
 
     initialize: ->
       super

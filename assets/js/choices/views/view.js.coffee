@@ -4,6 +4,18 @@ define 'choices/views/view', [
 
   class View extends ChaplinView
 
+    renderedSubviews: false
+
+    renderSubviews: ->
+      return
+
+    render: ->
+      super
+      unless @renderedSubviews
+        @renderSubviews()
+        @renderedSubviews = true
+      this
+
     templateExists: ->
       Handlebars.templates? and @template of Handlebars.templates
 

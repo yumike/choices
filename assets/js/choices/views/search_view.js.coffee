@@ -3,8 +3,9 @@ define 'choices/views/search_view', [
 ], (View) ->
 
   class SearchView extends View
-    className: "choices__search"
-    template:  "js/choices/templates/search"
+    className:  "choices__search"
+    template:   "js/choices/templates/search"
+    autoRender: true
 
     events:
       "keyup input":   "keyup"
